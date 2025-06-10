@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎰 추억의 뽑기판</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background-color: #fcefe3;
+      color: #3d2b1f;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 2.5em;
+      color: #b22222;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(20, 1fr);
+      gap: 5px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .cell {
+      width: 40px;
+      height: 40px;
+      background-color: #fffbe6;
+      border: 1px solid #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .revealed {
+      background-color: #ffdab9;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎰 추억의 뽑기판</h1>
+  <div class="grid" id="board"></div>
+  <div class="result" id="result"></div>
+
+  <script>
+    const board = document.getElementById('board');
+    const result = document.getElementById('result');
+
+    // 상품 구성
+    const prizes = [
+      ...Array(10).fill('1등✨'),
+      ...Array(30).fill('2등🎉'),
+      ...Array(40).fill('3등🎁'),
+      ...Array(100).fill('4등🍬'),
+      ...Array(100).fill('5등🍭'),
+      ...Array(20).fill('꽝💤') // 총합 300개
+    ];
+
+    // 섞기
+    const shuffled = prizes.sort(() => Math.random() - 0.5);
+
+    shuffled.forEach((prize, idx) => {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.dataset.index = idx;
+      cell.onclick = function () {
+        if (!cell.classList.contains('revealed')) {
+          cell.classList.add('revealed');
+          cell.innerText = prize;
+          result.innerText = `${idx + 1}번 뽑기 결과: ${prize}`;
+        }
+      };
+      board.appendChild(cell);
+    });
+  </script>
+</body>
+</html>
